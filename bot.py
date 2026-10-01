@@ -11,6 +11,7 @@ import io
 import json
 import logging
 import os
+import signal
 import sys
 import time
 import urllib.error
@@ -948,6 +949,8 @@ def env_flag(name, default):
 
 def main():
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
+    # docker stop шлёт SIGTERM; без обработчика Python его игнорирует и через 10 с получает SIGKILL (код 137)
+    signal.signal(signal.SIGTERM, lambda *_: sys.exit(0))
     load_env(HERE / ".env")
     token = os.environ.get("TELEGRAM_BOT_TOKEN", "").strip()
     if not token:
