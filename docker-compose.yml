@@ -1,0 +1,12 @@
+services:
+  bot:
+    build: .
+    image: systemmatica-status-bot
+    container_name: systemmatica-status-bot
+    restart: unless-stopped
+    env_file: .env
+    volumes:
+      - bot-data:/data
+
+volumes:
+  bot-data:
